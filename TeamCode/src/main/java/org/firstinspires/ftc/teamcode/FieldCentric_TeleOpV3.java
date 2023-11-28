@@ -7,7 +7,10 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.RobotLog;
 
+import org.firstinspires.ftc.robotcore.external.JavaUtil;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 
@@ -63,6 +66,13 @@ public class FieldCentric_TeleOpV3 extends LinearOpMode {
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
+
+        IMU imuOTHER = hardwareMap.get(IMU.class,"imu");
+        IMU.Parameters parameters2 = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+        imuOTHER.initialize(parameters2);
 
         waitForStart();
 
@@ -204,7 +214,6 @@ public class FieldCentric_TeleOpV3 extends LinearOpMode {
                 arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
             //((DcMotorEx) arm).setVelocity(1000);
-
             telemetry.addData("Arm position", armPos);
             telemetry.addData("Arm setpoint", position);
             telemetry.addData("Arm power", arm.getPower());
@@ -212,7 +221,10 @@ public class FieldCentric_TeleOpV3 extends LinearOpMode {
             telemetry.addData("Claw position", claw.getDirection());
             telemetry.addData("Motor","%.2f, %.2f, %.2f, %.2f", frontLeftPower, frontRightPower, backLeftPower, backRightPower);
             telemetry.addData("IMU: ", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+            telemetry.addData("IMU Control: ", imuOTHER.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+            telemetry.log();
             telemetry.update();
+            RobotLog.d("test", 1);
         }
     }
 }
