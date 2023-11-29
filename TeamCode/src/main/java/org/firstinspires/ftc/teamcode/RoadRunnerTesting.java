@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Trajectory;
 import com.acmerobotics.roadrunner.TrajectoryBuilder;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.hardware.bosch.BHI260IMU;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -31,6 +32,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 @Autonomous(name = "RoadRunnerTesting",group="Concpet")
@@ -46,12 +48,12 @@ public class RoadRunnerTesting extends LinearOpMode {
     @Override
     public void runOpMode(){
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(0)));
-        // drive.actionBuilder(new Pose2d(0,0,0))
+
         waitForStart();
         if(opModeIsActive()){
-            while(opModeIsActive()){
-
-            }
+            drive.actionBuilder(new Pose2d(0, 0, Math.toRadians(0.00)))
+                    .splineTo(new Vector2d(23.90, 0.36), Math.toRadians(0.69))
+                    .build();
         }
     }
 }

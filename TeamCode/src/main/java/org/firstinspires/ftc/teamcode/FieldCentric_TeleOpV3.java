@@ -222,9 +222,10 @@ public class FieldCentric_TeleOpV3 extends LinearOpMode {
             telemetry.addData("Motor","%.2f, %.2f, %.2f, %.2f", frontLeftPower, frontRightPower, backLeftPower, backRightPower);
             telemetry.addData("IMU: ", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
             telemetry.addData("IMU Control: ", imuOTHER.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
-            telemetry.log();
             telemetry.update();
-            RobotLog.d("test", 1);
+            RobotLog.ii("DbgLog", "IMU Control: " + imuOTHER.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+            RobotLog.ii("DbgLog", "IMU Expansion: " + imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+            RobotLog.ii("DbgLog", "Motor","%.2f, %.2f, %.2f, %.2f", frontLeftPower, frontRightPower, backLeftPower, backRightPower);
         }
     }
 }
