@@ -46,7 +46,7 @@ public class FieldCentric_TeleOpV3 extends LinearOpMode {
         //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         int position = arm.getCurrentPosition();
         int armMin = 0;
-        int armMax = 705;
+        int armMax = 715;
         double armPower = 0;
         double boostPower = 0;
         boolean armHold = true;
