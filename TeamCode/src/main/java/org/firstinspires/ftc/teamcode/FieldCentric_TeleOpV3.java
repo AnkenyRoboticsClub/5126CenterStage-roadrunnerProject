@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -46,10 +47,11 @@ public class FieldCentric_TeleOpV3 extends LinearOpMode {
         //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         int position = arm.getCurrentPosition();
         int armMin = 0;
-        int armMax = 715;
+        int armMax = 700;
         double armPower = 0;
         double boostPower = 0;
         boolean armHold = true;
+        double armDistance = 0;
 
 
         //Reverse the motors that are reversed
@@ -145,7 +147,8 @@ public class FieldCentric_TeleOpV3 extends LinearOpMode {
              */
             //Claw stuff
 
-            claw.setPower(gamepad2.right_trigger * -2 + 0.7);
+            //claw.setPower(gamepad2.right_trigger * -2 + 0.7);
+            claw.setPower((gamepad2.right_trigger*0.4)-1.3);
 
             //arm
             double armPos = arm.getCurrentPosition();
@@ -191,29 +194,42 @@ public class FieldCentric_TeleOpV3 extends LinearOpMode {
             }
 
             if(gamepad2.y){
-                armPower = 0.2;
+                armPower = 1;
                 armHold = true;
                 position = armMax - 235; //470
             }
             if(gamepad2.a){
-                armPower = 0.2;
+                armPower = 1;
                 armHold = true;
                 position = armMax-40; //665
+            }
+            if(gamepad2.b){
+                armPower = 1;
+                armHold = true;
+                position = armMax;
             }
 
             //set power for both motors
             arm.setPower(armPower);
             armBoost.setPower(boostPower);
-            //((DcMotorEx) arm).setTargetPositionTolerance(20);
+            ((DcMotorEx) arm).setTargetPositionTolerance(45);
             //arm.setPower(armPower);
 
             if (armHold) {
                 arm.setTargetPosition(position);
                 arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                armDistance = Math.abs(position - armPos);
+                if (armDistance < 200) {
+                    ((DcMotorEx) arm).setVelocity(500);
+                } else {
+                    ((DcMotorEx) arm).setVelocity(1000);
+                }
             } else {
                 arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
-            //((DcMotorEx) arm).setVelocity(1000);
+            //telemetry.addData("")
+            telemetry.addData("Target Distance", armDistance);
+            telemetry.addData("Arm Velocity", ((DcMotorEx) arm).getVelocity());
             telemetry.addData("Arm position", armPos);
             telemetry.addData("Arm setpoint", position);
             telemetry.addData("Arm power", arm.getPower());
