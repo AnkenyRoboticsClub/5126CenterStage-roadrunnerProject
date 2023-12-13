@@ -114,16 +114,13 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                 if(currentStep == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-43.11, -39.94), Math.toRadians(-135.00))
+                                    .splineTo(new Vector2d(-30.94, -36.05), Math.toRadians(45.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(-33.73, -56.55), Math.toRadians(-135))
+                                    .splineTo(new Vector2d(-39.32, -57.09), Math.toRadians(248.29))
                                     .setReversed(false)
-                                    .turnTo(Math.toRadians(-90))
-                                    .splineTo(new Vector2d(-34.30, -25.06), Math.toRadians(-90.00))
-                                    .splineTo(new Vector2d(-20.58, -11), Math.toRadians(0))
-                                    .splineTo(new Vector2d(-4.69, -11), Math.toRadians(0))
-                                    .splineTo(new Vector2d(16.25, -11), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(30.69, -11), Math.toRadians(0))
+                                    .splineTo(new Vector2d(-51.57, -25.84), Math.toRadians(100.01))
+                                    .splineTo(new Vector2d(-18.89, -10.31), Math.toRadians(0))
+                                    .splineTo(new Vector2d(27.89, -9.97), Math.toRadians(0))
                                     .splineToConstantHeading(new Vector2d(46.72, -29.68), Math.toRadians(0.00))
                                     .build()
                     );
@@ -144,15 +141,18 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                     currentStep = 10;
                 }
 
-                //Step 4 - Left line Start
+                //Step 4 - Right line Start
                 if(currentStep == 4){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(8, -39), Math.toRadians(135.00))
+                                    .splineTo(new Vector2d(-30.94, -36.05), Math.toRadians(45.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(23, -53), Math.toRadians(90))
+                                    .splineToConstantHeading(new Vector2d(-39.32, -57.09), Math.toRadians(45))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(46.72, -29.68), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(-51.57, -25.84), Math.toRadians(100.01))
+                                    .splineTo(new Vector2d(-18.89, -10.31), Math.toRadians(0))
+                                    .splineTo(new Vector2d(27.89, -9.97), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(46.5, -44.85), Math.toRadians(0))
                                     .build()
                     );
                     currentStep = 10;
