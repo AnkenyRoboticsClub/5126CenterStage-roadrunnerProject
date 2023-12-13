@@ -1,47 +1,31 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Trajectory;
-import com.acmerobotics.roadrunner.TrajectoryBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.hardware.bosch.BHI260IMU;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "RoadRunnerTesting",group="Concpet")
-public class RoadRunnerTesting extends LinearOpMode {
+@Autonomous(name = "AutoV5RedBackstage",group="Concpet")
+public class AutoV5BlueFrontstage extends LinearOpMode {
     private DcMotor arm;
     private CRServo claw;
     private DcMotor armBoost;
-    private int armDropPosition = 550;
+    private int armDropPosition = 523;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
     private VisionPortal visionPortal;
@@ -57,7 +41,7 @@ public class RoadRunnerTesting extends LinearOpMode {
     public void runOpMode(){
         boolean blockFound = false; //Set to true when pixel is found on spike mark
         String blockLocation = ""; //Set to center, left, or right spike mark
-        int currentStep = 2;
+        int currentStep = 1;
         ElapsedTime runtime = new ElapsedTime();
 
         initTfod();
@@ -89,8 +73,9 @@ public class RoadRunnerTesting extends LinearOpMode {
                 blockFound = false;
                 telemetryTfod();
                 telemetry.update();
-                drive.pose = new Pose2d(14.95, -63.62, Math.toRadians(90.00));
+                drive.pose = new Pose2d(-38.20, 63.48, Math.toRadians(-90.00));
                 //runtime.reset();
+
                 //Step 1 - use Tensorflow to check for team prop on left and center spike
                 if (currentStep == 1) {
                     if(runtime.milliseconds() < 4000){
@@ -99,15 +84,18 @@ public class RoadRunnerTesting extends LinearOpMode {
                         for(Recognition recognition : currentRecognitions){
                             telemetryTfod();
                             if(recognition.getLabel() == "RedCube1"){
+                                //Will be same as RedBackstage
                                 if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 300)){
-                                    blockLocation = "left";
-                                    blockFound = true;
-                                    currentStep = 2;
+                                    //Location Left
+                                    //blockLocation = "left";
+                                    //blockFound = true;
+                                    currentStep = 4;
 
                                 } else{
-                                    blockLocation = "center";
-                                    blockFound = true;
-                                    currentStep = 2;
+                                    //Location Center
+                                    //blockLocation = "center";
+                                    //blockFound = true;
+                                    currentStep = 3;
                                 }
                             }
                             else {
@@ -116,39 +104,96 @@ public class RoadRunnerTesting extends LinearOpMode {
                         }
                     }
                     else {
-                        blockLocation = "right";
-                        blockFound = true;
+                        //Location Right
+                        //blockLocation = "right";
+                        //blockFound = true;
                         currentStep = 2;
                     }
                 }
+
+                //Step 2 - Right line Start
                 if(currentStep == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(18,-36.5),Math.toRadians(45))
+                                    .splineTo(new Vector2d(-43.11, 39.94), Math.toRadians(-135.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(18.56,-55), Math.toRadians(90))
+                                    .splineToConstantHeading(new Vector2d(-33.73, 56.55), Math.toRadians(-135))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(46.5, -44.85), Math.toRadians(0))
+                                    .turnTo(Math.toRadians(-90))
+                                    .splineTo(new Vector2d(-34.30, 25.06), Math.toRadians(-90.00))
+                                    .splineTo(new Vector2d(-20.58, 11), Math.toRadians(0))
+                                    .splineTo(new Vector2d(-4.69, 11), Math.toRadians(0))
+                                    .splineTo(new Vector2d(16.25, 11), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(30.69, 11), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(46.72, 29.68), Math.toRadians(0.00))
                                     .build()
                     );
-                    currentStep = 3;
+                    currentStep = 10;
                 }
-                if (currentStep == 3){
+
+                //Step 3 - Middle line Start
+                if(currentStep == 3){
+                    Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    .splineTo(new Vector2d(-35.60, 32.86), Math.toRadians(-90.00))
+                                    .setReversed(true)
+                                    .splineToConstantHeading(new Vector2d(-35.46, 51.35), Math.toRadians(-90))
+                                    .setReversed(false)
+                                    .splineTo(new Vector2d(-51.06, 45.28), Math.toRadians(240.44))
+                                    .splineTo(new Vector2d(-43.98, 10.75), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(33.44, 10.75), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(46.5, 38), Math.toRadians(0.00))
+                                    .build()
+                    );
+
+                    currentStep = 10;
+                }
+
+                //Step 4 - Left line Start
+                if(currentStep == 4){
+                    Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    .splineTo(new Vector2d(-29.83, 38.06), Math.toRadians(-45.00))
+                                    .setReversed(true)
+                                    .splineToConstantHeading(new Vector2d(-42.54, 55.53), Math.toRadians(-45))
+                                    .setReversed(false)
+                                    .splineTo(new Vector2d(-42.68, 21.45), Math.toRadians(-90.00))
+                                    .splineTo(new Vector2d(-16.54, 10.75), Math.toRadians(0))
+                                    .splineTo(new Vector2d(33.44, 10.75), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(46.72, 29.68), Math.toRadians(0.00))
+                                    .build()
+                    );
+                    currentStep = 10;
+                }
+                //Step 10-11 Arm up release arm down
+                //Step 10 - Raise arm
+                if (currentStep == 10){
                     arm.setTargetPosition(armDropPosition);
                     arm.setPower(0.5);
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    if(arm.getCurrentPosition() == armDropPosition){
+                    if(armDropPosition + 5 < arm.getCurrentPosition() && armDropPosition - 5 < arm.getCurrentPosition()){
                         claw.setPower(-1);
-                        currentStep = 25;
+                        currentStep = 11;
                     }
 
                 }
-                //Step 25 - lower arm
-                if(currentStep == 25){
+                //Step 11 - Lower arm
+                if(currentStep == 11){
                     arm.setTargetPosition(0);
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     sleep(100);
-                    currentStep = 26;
+                    currentStep = 12;
+                }
+
+                //Step 12 - Parking
+                if(currentStep == 12){
+                    //drive.pose = new Pose2d(46.72, -29.68, Math.toRadians(0));
+                    drive.updatePoseEstimate();
+                    Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    .lineToYConstantHeading(-60)
+                                    .build()
+                    );
                 }
             }
         }
