@@ -88,7 +88,7 @@ public class AutoV5RedBackstage extends LinearOpMode {
                                     //Location Left
                                     //blockLocation = "left";
                                     //blockFound = true;
-                                    currentStep = 4;
+                                    currentStep = 2;
 
                                 } else{
                                     //Location Center
@@ -106,11 +106,11 @@ public class AutoV5RedBackstage extends LinearOpMode {
                         //Location Right
                         //blockLocation = "right";
                         //blockFound = true;
-                        currentStep = 2;
+                        currentStep = 4;
                     }
                 }
 
-                //Step 2 - Right line Start
+                //Step 2 - Left line start
                 if(currentStep == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
@@ -138,7 +138,7 @@ public class AutoV5RedBackstage extends LinearOpMode {
                     currentStep = 10;
                 }
 
-                //Step 4 - Left line Start
+                //Step 4 - Right line Start
                 if(currentStep == 4){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
@@ -151,6 +151,8 @@ public class AutoV5RedBackstage extends LinearOpMode {
                     );
                     currentStep = 10;
                 }
+
+
                 //Step 10-11 Arm up release arm down
                 //Step 10 - Raise arm
                 if (currentStep == 10){

@@ -20,7 +20,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "AutoV5RedBackstage",group="Concpet")
+@Autonomous(name = "AutoV5RedFrontstage",group="Concpet")
 public class AutoV5RedFrontstage extends LinearOpMode {
     private DcMotor arm;
     private CRServo claw;
@@ -114,14 +114,13 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                 if(currentStep == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-30.94, -36.05), Math.toRadians(45.00))
+                                    .splineTo(new Vector2d(-42.57, -38.43), Math.toRadians(119.74))
                                     .setReversed(true)
-                                    .splineTo(new Vector2d(-39.32, -57.09), Math.toRadians(248.29))
+                                    .splineTo(new Vector2d(-35, -59.29), Math.toRadians(267.51))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(-51.57, -25.84), Math.toRadians(100.01))
-                                    .splineTo(new Vector2d(-18.89, -10.31), Math.toRadians(0))
-                                    .splineTo(new Vector2d(27.89, -9.97), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(46.72, -29.68), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(-18, -11), Math.toRadians(0))
+                                    .splineTo(new Vector2d(29.97, -11), Math.toRadians(0.00))
+                                    .splineToConstantHeading(new Vector2d(46.5, -44.85), Math.toRadians(0))
                                     .build()
                     );
                     currentStep = 10;
@@ -131,11 +130,14 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                 if(currentStep == 3){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(12, -36.5), Math.toRadians(90.00))
+                                    .splineTo(new Vector2d(-36.55, -32.73), Math.toRadians(90.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(15, -50), Math.toRadians(90))
+                                    .splineToConstantHeading(new Vector2d(-36.55, -53.07), Math.toRadians(90))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(46.5, -38), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(-48.03, -49.85), Math.toRadians(135.00))
+                                    .splineTo(new Vector2d(-40.98, -10.77), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(31.12, -10.37), Math.toRadians(0.00))
+                                    .splineToConstantHeading(new Vector2d(46.5, -38), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;

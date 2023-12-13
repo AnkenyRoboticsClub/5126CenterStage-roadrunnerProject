@@ -20,7 +20,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "AutoV5RedBackstage",group="Concpet")
+@Autonomous(name = "AutoV5BlueFrontstage",group="Concpet")
 public class AutoV5BlueFrontstage extends LinearOpMode {
     private DcMotor arm;
     private CRServo claw;
@@ -32,9 +32,9 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
     private TfodProcessor tfod;
     private int myExposure;
 
-    private static final String TFOD_MODEL_ASSET = "RedCubeNEW.tflite";
+    private static final String TFOD_MODEL_ASSET = "BlueCubeNEW.tflite";
     private static final String[] LABELS = {
-            "RedCube1",
+            "BlueCube",
     };
 
     @Override
@@ -83,13 +83,13 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
                         //go through list of recognitions and look for cube
                         for(Recognition recognition : currentRecognitions){
                             telemetryTfod();
-                            if(recognition.getLabel() == "RedCube1"){
+                            if(recognition.getLabel() == "BlueCube1"){
                                 //Will be same as RedBackstage
                                 if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 300)){
                                     //Location Left
                                     //blockLocation = "left";
                                     //blockFound = true;
-                                    currentStep = 4;
+                                    currentStep = 2;
 
                                 } else{
                                     //Location Center
@@ -107,24 +107,21 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
                         //Location Right
                         //blockLocation = "right";
                         //blockFound = true;
-                        currentStep = 2;
+                        currentStep = 4;
                     }
                 }
 
-                //Step 2 - Right line Start
+                //Step 2 - Left line Start
                 if(currentStep == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-43.11, 39.94), Math.toRadians(-135.00))
+                                    .splineTo(new Vector2d(-29.83, 38.06), Math.toRadians(-45.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(-33.73, 56.55), Math.toRadians(-135))
+                                    .splineToConstantHeading(new Vector2d(-42.54, 55.53), Math.toRadians(-45))
                                     .setReversed(false)
-                                    .turnTo(Math.toRadians(-90))
-                                    .splineTo(new Vector2d(-34.30, 25.06), Math.toRadians(-90.00))
-                                    .splineTo(new Vector2d(-20.58, 11), Math.toRadians(0))
-                                    .splineTo(new Vector2d(-4.69, 11), Math.toRadians(0))
-                                    .splineTo(new Vector2d(16.25, 11), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(30.69, 11), Math.toRadians(0))
+                                    .splineTo(new Vector2d(-42.68, 21.45), Math.toRadians(-90.00))
+                                    .splineTo(new Vector2d(-16.54, 10.75), Math.toRadians(0))
+                                    .splineTo(new Vector2d(33.44, 10.75), Math.toRadians(0))
                                     .splineToConstantHeading(new Vector2d(46.72, 29.68), Math.toRadians(0.00))
                                     .build()
                     );
@@ -149,17 +146,21 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
                     currentStep = 10;
                 }
 
-                //Step 4 - Left line Start
+
+                //Step 4 - Right line Start
                 if(currentStep == 4){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-29.83, 38.06), Math.toRadians(-45.00))
+                                    .splineTo(new Vector2d(-43.11, 39.94), Math.toRadians(-135.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(-42.54, 55.53), Math.toRadians(-45))
+                                    .splineToConstantHeading(new Vector2d(-33.73, 56.55), Math.toRadians(-135))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(-42.68, 21.45), Math.toRadians(-90.00))
-                                    .splineTo(new Vector2d(-16.54, 10.75), Math.toRadians(0))
-                                    .splineTo(new Vector2d(33.44, 10.75), Math.toRadians(0))
+                                    .turnTo(Math.toRadians(-90))
+                                    .splineTo(new Vector2d(-34.30, 25.06), Math.toRadians(-90.00))
+                                    .splineTo(new Vector2d(-20.58, 11), Math.toRadians(0))
+                                    .splineTo(new Vector2d(-4.69, 11), Math.toRadians(0))
+                                    .splineTo(new Vector2d(16.25, 11), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(30.69, 11), Math.toRadians(0))
                                     .splineToConstantHeading(new Vector2d(46.72, 29.68), Math.toRadians(0.00))
                                     .build()
                     );
@@ -191,7 +192,7 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
                     drive.updatePoseEstimate();
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .lineToYConstantHeading(-60)
+                                    .lineToYConstantHeading(60)
                                     .build()
                     );
                 }

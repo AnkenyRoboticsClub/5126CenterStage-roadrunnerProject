@@ -14,15 +14,13 @@ public class MeepMeepTesting {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 18)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(-37.74, -62.82, Math.toRadians(90.00)))
-                                .splineTo(new Vector2d(-30.94, -36.05), Math.toRadians(45.00))
+                        drive.trajectorySequenceBuilder(new Pose2d(14.37, -62.76, Math.toRadians(90.00)))
+                                .splineTo(new Vector2d(12, -36.5), Math.toRadians(90.00))
                                 .setReversed(true)
-                                .splineToConstantHeading(new Vector2d(-39.32, -57.09), Math.toRadians(45))
+                                .splineToConstantHeading(new Vector2d(15, -50), Math.toRadians(90))
                                 .setReversed(false)
-                                .splineTo(new Vector2d(-51.57, -25.84), Math.toRadians(100.01))
-                                .splineTo(new Vector2d(-18.89, -10.31), Math.toRadians(0))
-                                .splineTo(new Vector2d(27.89, -9.97), Math.toRadians(0))
-                                .splineToConstantHeading(new Vector2d(46.5, -44.85), Math.toRadians(0))
+                                .splineTo(new Vector2d(46.5, -38), Math.toRadians(0.00))
+                                .lineTo(new Vector2d(46.5,-60))
                                 .build()
                 );
         mm.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)

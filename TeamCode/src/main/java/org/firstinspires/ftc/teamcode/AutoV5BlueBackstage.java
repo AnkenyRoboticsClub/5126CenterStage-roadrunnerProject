@@ -20,7 +20,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "AutoV5RedBackstage",group="Concpet")
+@Autonomous(name = "AutoV5BlueBackstage",group="Concpet")
 public class AutoV5BlueBackstage extends LinearOpMode {
     private DcMotor arm;
     private CRServo claw;
@@ -152,6 +152,7 @@ public class AutoV5BlueBackstage extends LinearOpMode {
                     );
                     currentStep = 10;
                 }
+
                 //Step 10-11 Arm up release arm down
                 //Step 10 - Raise arm
                 if (currentStep == 10){
