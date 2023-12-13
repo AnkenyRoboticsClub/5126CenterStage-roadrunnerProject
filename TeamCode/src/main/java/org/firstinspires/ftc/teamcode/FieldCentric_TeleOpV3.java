@@ -47,7 +47,7 @@ public class FieldCentric_TeleOpV3 extends LinearOpMode {
         //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         int position = arm.getCurrentPosition();
         int armMin = 0;
-        int armMax = 700;
+        int armMax = 715;
         double armPower = 0;
         double boostPower = 0;
         boolean armHold = true;
@@ -148,7 +148,7 @@ public class FieldCentric_TeleOpV3 extends LinearOpMode {
             //Claw stuff
 
             //claw.setPower(gamepad2.right_trigger * -2 + 0.7);
-            claw.setPower((gamepad2.right_trigger*0.4)-1.3);
+            claw.setPower((gamepad2.right_trigger*1.3)-2);
 
             //arm
             double armPos = arm.getCurrentPosition();
