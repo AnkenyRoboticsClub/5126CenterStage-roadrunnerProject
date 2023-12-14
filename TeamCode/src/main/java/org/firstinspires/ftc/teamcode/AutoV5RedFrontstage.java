@@ -68,6 +68,7 @@ public class AutoV5RedFrontstage extends LinearOpMode {
 
 
         waitForStart();
+        runtime.reset();
         if(opModeIsActive()){
             while(opModeIsActive()){
                 blockFound = false;
@@ -84,7 +85,7 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                         for(Recognition recognition : currentRecognitions){
                             telemetryTfod();
                             if(recognition.getLabel() == "RedCube1"){
-                                if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 300)){
+                                if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 400)){
                                     //Location Left
                                     //blockLocation = "left";
                                     //blockFound = true;
@@ -120,7 +121,7 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                                     .setReversed(false)
                                     .splineTo(new Vector2d(-18, -11), Math.toRadians(0))
                                     .splineTo(new Vector2d(29.97, -11), Math.toRadians(0.00))
-                                    .splineToConstantHeading(new Vector2d(46.5, -44.85), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(44, -29.68), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -130,14 +131,14 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                 if(currentStep == 3){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-36.55, -32.73), Math.toRadians(90.00))
+                                    .splineTo(new Vector2d(-36.55, -33), Math.toRadians(90.00))
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(-36.55, -53.07), Math.toRadians(90))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(-48.03, -49.85), Math.toRadians(135.00))
+                                    .splineTo(new Vector2d(-48.03, -49.85), Math.toRadians(90))
                                     .splineTo(new Vector2d(-40.98, -10.77), Math.toRadians(0.00))
                                     .splineTo(new Vector2d(31.12, -10.37), Math.toRadians(0.00))
-                                    .splineToConstantHeading(new Vector2d(46.5, -38), Math.toRadians(0.00))
+                                    .splineToConstantHeading(new Vector2d(44, -38), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -149,12 +150,12 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                             drive.actionBuilder(drive.pose)
                                     .splineTo(new Vector2d(-30.94, -36.05), Math.toRadians(45.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(-39.32, -57.09), Math.toRadians(45))
+                                    .splineToConstantHeading(new Vector2d(-39.32, -54.09), Math.toRadians(45))
                                     .setReversed(false)
                                     .splineTo(new Vector2d(-51.57, -25.84), Math.toRadians(100.01))
                                     .splineTo(new Vector2d(-18.89, -10.31), Math.toRadians(0))
                                     .splineTo(new Vector2d(27.89, -9.97), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(46.5, -44.85), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(44, -44.85), Math.toRadians(0))
                                     .build()
                     );
                     currentStep = 10;

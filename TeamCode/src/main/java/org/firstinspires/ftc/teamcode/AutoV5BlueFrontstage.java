@@ -68,6 +68,7 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
 
 
         waitForStart();
+        runtime.reset();
         if(opModeIsActive()){
             while(opModeIsActive()){
                 blockFound = false;

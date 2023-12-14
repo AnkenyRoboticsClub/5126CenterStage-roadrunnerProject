@@ -68,27 +68,27 @@ public class AutoV5RedBackstage extends LinearOpMode {
 
 
         waitForStart();
+        runtime.reset();
         if(opModeIsActive()){
             while(opModeIsActive()){
                 blockFound = false;
                 telemetryTfod();
                 telemetry.update();
                 drive.pose = new Pose2d(14.95, -63.62, Math.toRadians(90.00));
-                //runtime.reset();
 
                 //Step 1 - use Tensorflow to check for team prop on left and center spike
                 if (currentStep == 1) {
-                    if(runtime.milliseconds() < 4000){
+                    if(runtime.milliseconds() < 1500){
                         List<Recognition> currentRecognitions = tfod.getRecognitions();
                         //go through list of recognitions and look for cube
                         for(Recognition recognition : currentRecognitions){
                             telemetryTfod();
                             if(recognition.getLabel() == "RedCube1"){
-                                if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 300)){
+                                if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 250)){
                                     //Location Left
                                     //blockLocation = "left";
                                     //blockFound = true;
-                                    currentStep = 2;
+                                    currentStep = 4;
 
                                 } else{
                                     //Location Center
@@ -106,19 +106,19 @@ public class AutoV5RedBackstage extends LinearOpMode {
                         //Location Right
                         //blockLocation = "right";
                         //blockFound = true;
-                        currentStep = 4;
+                        currentStep = 2;
                     }
                 }
 
-                //Step 2 - Left line start
+                //Step 2 - Right line start
                 if(currentStep == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(18,-36.5),Math.toRadians(45))
+                                    .splineTo(new Vector2d(17.5,-36.5),Math.toRadians(45))
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(18.56,-55), Math.toRadians(90))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(46.5, -44.85), Math.toRadians(0))
+                                    .splineTo(new Vector2d(43.5, -44.85), Math.toRadians(0))
                                     .build()
                     );
                     currentStep = 10;
@@ -132,21 +132,21 @@ public class AutoV5RedBackstage extends LinearOpMode {
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(15, -50), Math.toRadians(90))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(46.5, -38), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(44, -38), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
                 }
 
-                //Step 4 - Right line Start
+                //Step 4 - Left line Start
                 if(currentStep == 4){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(8, -39), Math.toRadians(135.00))
+                                    .splineTo(new Vector2d(9.5, -39), Math.toRadians(135.00))
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(23, -53), Math.toRadians(90))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(46.72, -29.68), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(44, -29.68), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -159,6 +159,7 @@ public class AutoV5RedBackstage extends LinearOpMode {
                     arm.setTargetPosition(armDropPosition);
                     arm.setPower(0.5);
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    sleep(100);
                     if(armDropPosition + 5 < arm.getCurrentPosition() && armDropPosition - 5 < arm.getCurrentPosition()){
                         claw.setPower(-1);
                         currentStep = 11;
@@ -169,7 +170,9 @@ public class AutoV5RedBackstage extends LinearOpMode {
                 if(currentStep == 11){
                     arm.setTargetPosition(0);
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    sleep(100);
+                    while(arm.isBusy()){
+
+                    }
                     currentStep = 12;
                 }
 
@@ -179,9 +182,10 @@ public class AutoV5RedBackstage extends LinearOpMode {
                     drive.updatePoseEstimate();
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .lineToYConstantHeading(-60)
+                                    .turnTo(Math.toRadians(0))
                                     .build()
                     );
+                    currentStep = 13;
                 }
             }
         }

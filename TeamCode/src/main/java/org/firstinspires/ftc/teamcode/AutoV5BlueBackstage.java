@@ -68,6 +68,7 @@ public class AutoV5BlueBackstage extends LinearOpMode {
 
 
         waitForStart();
+        runtime.reset();
         if(opModeIsActive()){
             while(opModeIsActive()){
                 blockFound = false;
@@ -85,7 +86,7 @@ public class AutoV5BlueBackstage extends LinearOpMode {
                             telemetryTfod();
                             if(recognition.getLabel() == "BlueCube1"){
                                 //Detects the position of the cube on the screen - should be the same as RedFrontStage
-                                if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 300)){
+                                if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 400)){
                                     //Location Left
                                     //blockLocation = "left";
                                     //blockFound = true;
