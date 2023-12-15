@@ -69,7 +69,7 @@ import java.util.concurrent.TimeUnit;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @Autonomous(name = "AutoV4 Red FrontStage", group = "Concept")
-//@Disabled
+@Disabled
 public class AutoV4RedFar extends LinearOpMode {
 
     double DESIRED_DISTANCE = 4; // how close the camera should get to the object (inches)
