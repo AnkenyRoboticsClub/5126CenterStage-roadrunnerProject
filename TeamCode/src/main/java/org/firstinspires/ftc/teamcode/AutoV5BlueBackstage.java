@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -59,6 +60,12 @@ public class AutoV5BlueBackstage extends LinearOpMode {
         claw = hardwareMap.get(CRServo.class, "claw");
         arm = hardwareMap.get(DcMotor.class, "arm");
         armBoost = hardwareMap.get(DcMotor.class, "armBoost");
+
+        //Initalizes motors for strafing
+        frontLeft = hardwareMap.get(DcMotorEx.class, "Motor1");
+        backLeft = hardwareMap.get(DcMotorEx.class, "Motor0");
+        backRight = hardwareMap.get(DcMotorEx.class, "Motor3");
+        frontRight = hardwareMap.get(DcMotorEx.class, "Motor2");
 
         //Arm motor
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -121,9 +128,9 @@ public class AutoV5BlueBackstage extends LinearOpMode {
                 if(currentStep == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(17.5,36.5),Math.toRadians(-45))
+                                    .splineTo(new Vector2d(16.5,36.5),Math.toRadians(-45))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(18.56,55), Math.toRadians(-90))
+                                    .splineToConstantHeading(new Vector2d(22,55), Math.toRadians(-90))
                                     .setReversed(false)
                                     .splineTo(new Vector2d(44, 44.85), Math.toRadians(0))
                                     .build()
@@ -135,7 +142,7 @@ public class AutoV5BlueBackstage extends LinearOpMode {
                 if(currentStep == 3){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(12, 36.5), Math.toRadians(-90))
+                                    .splineTo(new Vector2d(12, 35), Math.toRadians(-90))
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(15, 50), Math.toRadians(-90))
                                     .setReversed(false)
@@ -149,7 +156,7 @@ public class AutoV5BlueBackstage extends LinearOpMode {
                 if(currentStep == 4){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(9.5, 39), Math.toRadians(-135))
+                                    .splineTo(new Vector2d(8, 39), Math.toRadians(-135))
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(23, 53), Math.toRadians(-90))
                                     .setReversed(false)
@@ -189,10 +196,10 @@ public class AutoV5BlueBackstage extends LinearOpMode {
                 if(currentStep == 12){
                     drive.updatePoseEstimate();
 
-                    //Turns -90 degrees back to starting position
+                    //Turns 90 degrees back to starting position
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .turn(Math.toRadians(-90))
+                                    .turn(Math.toRadians(90))
                                     .build()
                     );
                     currentStep = 13;
@@ -201,11 +208,11 @@ public class AutoV5BlueBackstage extends LinearOpMode {
                 //Step 13 - parking
                 if(currentStep == 13){
                     if(blockLocation == "left"){
-                        moveDistance(0.7,-12);
+                        moveDistance(0.7,12);
                     }else if (blockLocation == "center"){
-                        moveDistance(0.7,-18);
+                        moveDistance(0.7,18);
                     }else if(blockLocation == "right"){
-                        moveDistance(0.7,-24);
+                        moveDistance(0.7,24);
                     } else{
                         break;
                     }

@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -60,6 +63,12 @@ public class AutoV5RedFrontstage extends LinearOpMode {
         arm = hardwareMap.get(DcMotor.class, "arm");
         armBoost = hardwareMap.get(DcMotor.class, "armBoost");
 
+        //Initalizes motors for strafing
+        frontLeft = hardwareMap.get(DcMotorEx.class, "Motor1");
+        backLeft = hardwareMap.get(DcMotorEx.class, "Motor0");
+        backRight = hardwareMap.get(DcMotorEx.class, "Motor3");
+        frontRight = hardwareMap.get(DcMotorEx.class, "Motor2");
+
         //Arm motor
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -78,6 +87,7 @@ public class AutoV5RedFrontstage extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
+
         if(opModeIsActive()){
             while(opModeIsActive()){
                 telemetryTfod();
@@ -120,7 +130,7 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                 if(currentStep == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-42.57, -38.43), Math.toRadians(119.74))
+                                    .splineTo(new Vector2d(-41, -38.43), Math.toRadians(119.74))
                                     .setReversed(true)
                                     .splineTo(new Vector2d(-35, -59.29), Math.toRadians(267.51))
                                     .setReversed(false)
@@ -136,13 +146,14 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                 if(currentStep == 3){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-36.55, -33), Math.toRadians(90.00))
+                                    .splineTo(new Vector2d(-36.55, -35), Math.toRadians(90.00))
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(-36.55, -53.07), Math.toRadians(90))
                                     .setReversed(false)
                                     .splineTo(new Vector2d(-48.03, -49.85), Math.toRadians(90))
                                     .splineTo(new Vector2d(-40.98, -10.77), Math.toRadians(0.00))
                                     .splineTo(new Vector2d(31.12, -10.37), Math.toRadians(0.00))
+                                    //Need to decrease velocity
                                     .splineToConstantHeading(new Vector2d(44, -38), Math.toRadians(0.00))
                                     .build()
                     );
@@ -194,13 +205,13 @@ public class AutoV5RedFrontstage extends LinearOpMode {
 
                 //Step 12 - Turning
                 if(currentStep == 12){
-
+                    //drive.pose = new Pose2d(46.72, -29.68, Math.toRadians(0));
                     drive.updatePoseEstimate();
 
                     //Turns 90 degrees back to starting position
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .turn(Math.toRadians(90))
+                                    .turn(Math.toRadians(-90))
                                     .build()
                     );
                     currentStep = 13;
@@ -208,13 +219,14 @@ public class AutoV5RedFrontstage extends LinearOpMode {
 
                 //Step 13 - parking
                 if(currentStep == 13){
-                    if(blockLocation == "left"){
-                        moveDistance(0.7,-24);
+                    if(blockLocation == "right"){
+                        moveDistance(0.7,-25);
                     }else if (blockLocation == "center"){
-                        moveDistance(0.7,-18);
-                    }else if(blockLocation == "right"){
-                        moveDistance(0.7,-12);
-                    }else{
+                        moveDistance(0.7,-21);
+                    }else if(blockLocation == "left"){
+                        moveDistance(0.7,-11);
+                    }
+                    else{
                         break;
                     }
                     currentStep = 14;

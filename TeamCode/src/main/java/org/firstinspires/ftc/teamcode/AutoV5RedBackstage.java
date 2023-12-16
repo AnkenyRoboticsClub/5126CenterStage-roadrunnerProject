@@ -205,7 +205,7 @@ public class AutoV5RedBackstage extends LinearOpMode {
                     //Turns 90 degrees back to starting position
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .turn(Math.toRadians(90))
+                                    .turn(Math.toRadians(-90))
                                     .build()
                     );
                     currentStep = 13;
@@ -214,11 +214,11 @@ public class AutoV5RedBackstage extends LinearOpMode {
                 //Step 13 - parking
                 if(currentStep == 13){
                     if(blockLocation == "left"){
-                        moveDistance(0.7,-24);
+                        moveDistance(0.7,27);
                     }else if (blockLocation == "center"){
-                        moveDistance(0.7,-18);
+                        moveDistance(0.7,23);
                     }else if(blockLocation == "right"){
-                        moveDistance(0.7,-12);
+                        moveDistance(0.7,13);
                     }
                     else{
                         break;

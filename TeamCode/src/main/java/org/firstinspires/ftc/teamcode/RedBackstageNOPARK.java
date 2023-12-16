@@ -21,8 +21,8 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "AutoV5BlueFrontstage",group="Concpet")
-public class AutoV5BlueFrontstage extends LinearOpMode {
+@Autonomous(name = "RedBackstageNOPARK",group="Concpet")
+public class RedBackstageNOPARK extends LinearOpMode {
 
     private DcMotor frontLeft;
     private DcMotor backLeft;
@@ -31,6 +31,7 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
     private DcMotor arm;
     private CRServo claw;
     private DcMotor armBoost;
+
     private int armDropPosition = 523;
     static final double COUNTS_PER_MOTOR_REV = 537.7; //Ticks per revolution
     static final double DRIVE_GEAR_REDUCTION = 1.0; // No External Gearing
@@ -43,9 +44,9 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
     private TfodProcessor tfod;
     private int myExposure;
 
-    private static final String TFOD_MODEL_ASSET = "BlueCubeNEW.tflite";
+    private static final String TFOD_MODEL_ASSET = "RedCubeNEW.tflite";
     private static final String[] LABELS = {
-            "BlueCube1",
+            "RedCube1",
     };
 
     @Override
@@ -55,8 +56,9 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
         ElapsedTime runtime = new ElapsedTime();
 
         initTfod();
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(0)));
 
+        //Initalizes motors and claw
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(0)));
         claw = hardwareMap.get(CRServo.class, "claw");
         arm = hardwareMap.get(DcMotor.class, "arm");
         armBoost = hardwareMap.get(DcMotor.class, "armBoost");
@@ -85,12 +87,14 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
+
         if(opModeIsActive()){
             while(opModeIsActive()){
                 telemetryTfod();
                 telemetry.update();
 
-                drive.pose = new Pose2d(-38.20, 63.48, Math.toRadians(-90.00));
+                //Starting position of Robot
+                drive.pose = new Pose2d(14.95, -63.62, Math.toRadians(90.00));
 
                 //Step 1 - use Tensorflow to check for team prop on left and center spike
                 if (currentStep == 1) {
@@ -99,7 +103,7 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
                         //go through list of recognitions and look for cube
                         for(Recognition recognition : currentRecognitions){
                             telemetryTfod();
-                            if(recognition.getLabel() == "BlueCube1"){
+                            if(recognition.getLabel() == "RedCube1"){
                                 if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 250)){
                                     // Location Left
                                     blockLocation = "left";
@@ -122,18 +126,16 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
                         currentStep = 4;
                     }
                 }
+
                 //Step 2 - Left line Start
                 if(currentStep == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-36.55, 38.06), Math.toRadians(-45.00))
+                                    .splineTo(new Vector2d(9.5, -39), Math.toRadians(135.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(-42.54, 55.53), Math.toRadians(-45))
+                                    .splineToConstantHeading(new Vector2d(23, -53), Math.toRadians(90))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(-42.68, 21.45), Math.toRadians(-90.00))
-                                    .splineTo(new Vector2d(-16.54, 10.75), Math.toRadians(0))
-                                    .splineTo(new Vector2d(33.44, 10.75), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(44, 29.68), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(44, -29.68), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -143,40 +145,31 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
                 if(currentStep == 3){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-35.60, 35), Math.toRadians(-90.00))
+                                    .splineTo(new Vector2d(12, -36.5), Math.toRadians(90.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(-35.46, 51.35), Math.toRadians(-90))
+                                    .splineToConstantHeading(new Vector2d(15, -50), Math.toRadians(90))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(-51.06, 45.28), Math.toRadians(240.44))
-                                    .splineTo(new Vector2d(-43.98, 10.75), Math.toRadians(0.00))
-                                    .splineTo(new Vector2d(33.44, 10.75), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(44, 38), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(44, -38), Math.toRadians(0.00))
                                     .build()
                     );
-
                     currentStep = 10;
                 }
 
 
-                //Step 4 - Right line Start
+                //Step 4 - Right line start
                 if(currentStep == 4){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-43.11, 39.94), Math.toRadians(-135.00))
+                                    .splineTo(new Vector2d(17.5,-36.5),Math.toRadians(45))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(-43, 56.55), Math.toRadians(-135))
+                                    .splineToConstantHeading(new Vector2d(18.56,-55), Math.toRadians(90))
                                     .setReversed(false)
-                                    .turnTo(Math.toRadians(-90))
-                                    .splineTo(new Vector2d(-34.30, 25.06), Math.toRadians(-90.00))
-                                    .splineTo(new Vector2d(-20.58, 11), Math.toRadians(0))
-                                    .splineTo(new Vector2d(-4.69, 11), Math.toRadians(0))
-                                    .splineTo(new Vector2d(16.25, 11), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(30.69, 11), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(44, 29.68), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(44, -44.85), Math.toRadians(0))
                                     .build()
                     );
                     currentStep = 10;
                 }
+
 
                 //Step 10-11 Arm up release arm down
                 //Step 10 - Raise arm
@@ -206,9 +199,10 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
 
                 //Step 12 - Turning
                 if(currentStep == 12){
+                    //drive.pose = new Pose2d(46.72, -29.68, Math.toRadians(0));
                     drive.updatePoseEstimate();
 
-                    //Turns -90 degrees back to starting position
+                    //Turns 90 degrees back to starting position
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
                                     .turn(Math.toRadians(-90))
@@ -216,20 +210,23 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
                     );
                     currentStep = 13;
                 }
-
+                /*
                 //Step 13 - parking
                 if(currentStep == 13){
                     if(blockLocation == "left"){
-                        moveDistance(0.7,-12);
+                        moveDistance(0.7,27);
                     }else if (blockLocation == "center"){
-                        moveDistance(0.7,-18);
+                        moveDistance(0.7,23);
                     }else if(blockLocation == "right"){
-                        moveDistance(0.7,-24);
-                    } else{
+                        moveDistance(0.7,13);
+                    }
+                    else{
                         break;
                     }
                     currentStep = 14;
                 }
+
+                 */
             }
         }
     }

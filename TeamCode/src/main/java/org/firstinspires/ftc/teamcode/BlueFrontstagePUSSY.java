@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Autonomous(name = "AutoV5BlueFrontstage",group="Concpet")
-public class AutoV5BlueFrontstage extends LinearOpMode {
+public class BlueFrontstagePUSSY extends LinearOpMode {
 
     private DcMotor frontLeft;
     private DcMotor backLeft;
@@ -130,10 +130,6 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(-42.54, 55.53), Math.toRadians(-45))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(-42.68, 21.45), Math.toRadians(-90.00))
-                                    .splineTo(new Vector2d(-16.54, 10.75), Math.toRadians(0))
-                                    .splineTo(new Vector2d(33.44, 10.75), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(44, 29.68), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -147,10 +143,6 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(-35.46, 51.35), Math.toRadians(-90))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(-51.06, 45.28), Math.toRadians(240.44))
-                                    .splineTo(new Vector2d(-43.98, 10.75), Math.toRadians(0.00))
-                                    .splineTo(new Vector2d(33.44, 10.75), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(44, 38), Math.toRadians(0.00))
                                     .build()
                     );
 
@@ -166,13 +158,6 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(-43, 56.55), Math.toRadians(-135))
                                     .setReversed(false)
-                                    .turnTo(Math.toRadians(-90))
-                                    .splineTo(new Vector2d(-34.30, 25.06), Math.toRadians(-90.00))
-                                    .splineTo(new Vector2d(-20.58, 11), Math.toRadians(0))
-                                    .splineTo(new Vector2d(-4.69, 11), Math.toRadians(0))
-                                    .splineTo(new Vector2d(16.25, 11), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(30.69, 11), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(44, 29.68), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
