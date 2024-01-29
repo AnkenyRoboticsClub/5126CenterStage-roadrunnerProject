@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.placePixel;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -15,14 +15,15 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "BlueBackstageNOPARK",group="Concpet")
-public class BlueBackstageNOPARK extends LinearOpMode {
+@Autonomous(name = "PLACERedFrontstage",group="Concpet")
+public class RedFrontstagePUSSY extends LinearOpMode {
 
     private DcMotor frontLeft;
     private DcMotor backLeft;
@@ -43,9 +44,9 @@ public class BlueBackstageNOPARK extends LinearOpMode {
     private TfodProcessor tfod;
     private int myExposure;
 
-    private static final String TFOD_MODEL_ASSET = "BlueCubeNEW.tflite";
+    private static final String TFOD_MODEL_ASSET = "RedCubeNEW.tflite";
     private static final String[] LABELS = {
-            "BlueCube1",
+            "RedCube1",
     };
 
     @Override
@@ -85,12 +86,13 @@ public class BlueBackstageNOPARK extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
+
         if(opModeIsActive()){
             while(opModeIsActive()){
                 telemetryTfod();
                 telemetry.update();
 
-                drive.pose = new Pose2d(14.08, 62.61, Math.toRadians(-90.00));
+                drive.pose = new Pose2d(-37.74, -62.82, Math.toRadians(90.00));
 
                 //Step 1 - use Tensorflow to check for team prop on left and center spike
                 if (currentStep == 1) {
@@ -99,8 +101,7 @@ public class BlueBackstageNOPARK extends LinearOpMode {
                         //go through list of recognitions and look for cube
                         for(Recognition recognition : currentRecognitions){
                             telemetryTfod();
-                            if(recognition.getLabel() == "BlueCube1"){
-                                //Detects the position of the cube on the screen - should be the same as RedFrontStage
+                            if(recognition.getLabel() == "RedCube1"){
                                 if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 400)){
                                     //Location Left
                                     blockLocation = "left";
@@ -128,25 +129,23 @@ public class BlueBackstageNOPARK extends LinearOpMode {
                 if(currentStep == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(16.5,36.5),Math.toRadians(-45))
+                                    .splineTo(new Vector2d(-41, -38.43), Math.toRadians(119.74))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(22,55), Math.toRadians(-90))
+                                    .splineTo(new Vector2d(-35, -59.29), Math.toRadians(267.51))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(44, 44.85), Math.toRadians(0))
                                     .build()
                     );
                     currentStep = 10;
                 }
 
-                //Step 3 - Middle line Start
+                //Step 3 - Center line Start
                 if(currentStep == 3){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(12, 35), Math.toRadians(-90))
+                                    .splineTo(new Vector2d(-36.55, -35), Math.toRadians(90.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(15, 50), Math.toRadians(-90))
+                                    .splineToConstantHeading(new Vector2d(-36.55, -53.07), Math.toRadians(90))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(44, 38), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -156,11 +155,10 @@ public class BlueBackstageNOPARK extends LinearOpMode {
                 if(currentStep == 4){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(8, 39), Math.toRadians(-135))
+                                    .splineTo(new Vector2d(-30.94, -36.05), Math.toRadians(45.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(23, 53), Math.toRadians(-90))
+                                    .splineToConstantHeading(new Vector2d(-45, -54.09), Math.toRadians(45))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(44, 29.68), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -168,7 +166,7 @@ public class BlueBackstageNOPARK extends LinearOpMode {
 
                 //Step 10-11 Arm up release arm down
                 //Step 10 - Raise arm
-                if (currentStep == 10){
+                if (currentStep == 18){
                     arm.setTargetPosition(armDropPosition);
                     arm.setPower(0.5);
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -194,33 +192,32 @@ public class BlueBackstageNOPARK extends LinearOpMode {
 
                 //Step 12 - Turning
                 if(currentStep == 12){
+                    //drive.pose = new Pose2d(46.72, -29.68, Math.toRadians(0));
                     drive.updatePoseEstimate();
 
                     //Turns 90 degrees back to starting position
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .turn(Math.toRadians(90))
+                                    .turn(Math.toRadians(-90))
                                     .build()
                     );
                     currentStep = 13;
                 }
 
-                /*
                 //Step 13 - parking
                 if(currentStep == 13){
                     if(blockLocation == "left"){
-                        moveDistance(0.7,12);
+                        moveDistance(0.7,27);
                     }else if (blockLocation == "center"){
-                        moveDistance(0.7,18);
+                        moveDistance(0.7,23);
                     }else if(blockLocation == "right"){
-                        moveDistance(0.7,24);
-                    } else{
+                        moveDistance(0.7,13);
+                    }
+                    else{
                         break;
                     }
                     currentStep = 14;
                 }
-
-                 */
             }
         }
     }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.noPark;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -15,14 +15,15 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "AutoV5BlueFrontstage",group="Concpet")
-public class BlueFrontstagePUSSY extends LinearOpMode {
+@Autonomous(name = "BlueBackstageNOPARK",group="Concpet")
+public class BlueBackstageNOPARK extends LinearOpMode {
 
     private DcMotor frontLeft;
     private DcMotor backLeft;
@@ -90,7 +91,7 @@ public class BlueFrontstagePUSSY extends LinearOpMode {
                 telemetryTfod();
                 telemetry.update();
 
-                drive.pose = new Pose2d(-38.20, 63.48, Math.toRadians(-90.00));
+                drive.pose = new Pose2d(14.08, 62.61, Math.toRadians(-90.00));
 
                 //Step 1 - use Tensorflow to check for team prop on left and center spike
                 if (currentStep == 1) {
@@ -100,13 +101,14 @@ public class BlueFrontstagePUSSY extends LinearOpMode {
                         for(Recognition recognition : currentRecognitions){
                             telemetryTfod();
                             if(recognition.getLabel() == "BlueCube1"){
-                                if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 250)){
-                                    // Location Left
+                                //Detects the position of the cube on the screen - should be the same as RedFrontStage
+                                if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 400)){
+                                    //Location Left
                                     blockLocation = "left";
                                     currentStep = 2;
 
                                 } else{
-                                    // Location Center
+                                    //Location Center
                                     blockLocation = "center";
                                     currentStep = 3;
                                 }
@@ -117,47 +119,49 @@ public class BlueFrontstagePUSSY extends LinearOpMode {
                         }
                     }
                     else {
-                        // Location Right
+                        //Location Right
                         blockLocation = "right";
                         currentStep = 4;
                     }
                 }
+
                 //Step 2 - Left line Start
                 if(currentStep == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-36.55, 38.06), Math.toRadians(-45.00))
+                                    .splineTo(new Vector2d(16.5,36.5),Math.toRadians(-45))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(-42.54, 55.53), Math.toRadians(-45))
+                                    .splineToConstantHeading(new Vector2d(22,55), Math.toRadians(-90))
                                     .setReversed(false)
+                                    .splineTo(new Vector2d(44, 44.85), Math.toRadians(0))
                                     .build()
                     );
                     currentStep = 10;
                 }
 
-                //Step 3 - Center line Start
+                //Step 3 - Middle line Start
                 if(currentStep == 3){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-35.60, 35), Math.toRadians(-90.00))
+                                    .splineTo(new Vector2d(12, 35), Math.toRadians(-90))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(-35.46, 51.35), Math.toRadians(-90))
+                                    .splineToConstantHeading(new Vector2d(15, 50), Math.toRadians(-90))
                                     .setReversed(false)
+                                    .splineTo(new Vector2d(44, 38), Math.toRadians(0.00))
                                     .build()
                     );
-
                     currentStep = 10;
                 }
-
 
                 //Step 4 - Right line Start
                 if(currentStep == 4){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-43.11, 39.94), Math.toRadians(-135.00))
+                                    .splineTo(new Vector2d(8, 39), Math.toRadians(-135))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(-43, 56.55), Math.toRadians(-135))
+                                    .splineToConstantHeading(new Vector2d(23, 53), Math.toRadians(-90))
                                     .setReversed(false)
+                                    .splineTo(new Vector2d(44, 29.68), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -193,28 +197,31 @@ public class BlueFrontstagePUSSY extends LinearOpMode {
                 if(currentStep == 12){
                     drive.updatePoseEstimate();
 
-                    //Turns -90 degrees back to starting position
+                    //Turns 90 degrees back to starting position
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .turn(Math.toRadians(-90))
+                                    .turn(Math.toRadians(90))
                                     .build()
                     );
                     currentStep = 13;
                 }
 
+                /*
                 //Step 13 - parking
                 if(currentStep == 13){
                     if(blockLocation == "left"){
-                        moveDistance(0.7,-12);
+                        moveDistance(0.7,12);
                     }else if (blockLocation == "center"){
-                        moveDistance(0.7,-18);
+                        moveDistance(0.7,18);
                     }else if(blockLocation == "right"){
-                        moveDistance(0.7,-24);
+                        moveDistance(0.7,24);
                     } else{
                         break;
                     }
                     currentStep = 14;
                 }
+
+                 */
             }
         }
     }
