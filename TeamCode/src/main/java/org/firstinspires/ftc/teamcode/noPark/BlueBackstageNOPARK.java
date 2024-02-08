@@ -22,7 +22,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "BlueBackstageNOPARK",group="Concpet")
+@Autonomous(name = "NOPARKBlueBackstage",group="Concpet")
 public class BlueBackstageNOPARK extends LinearOpMode {
 
     private DcMotor frontLeft;

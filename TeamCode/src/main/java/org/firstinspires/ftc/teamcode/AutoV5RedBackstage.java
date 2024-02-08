@@ -200,7 +200,7 @@ public class AutoV5RedBackstage extends LinearOpMode {
                 //Step 12 - Turning
                 if(currentStep == 12){
                     //drive.pose = new Pose2d(46.72, -29.68, Math.toRadians(0));
-                    drive.updatePoseEstimate();
+                    //drive.updatePoseEstimate();
 
                     //Turns 90 degrees back to starting position
                     Actions.runBlocking(

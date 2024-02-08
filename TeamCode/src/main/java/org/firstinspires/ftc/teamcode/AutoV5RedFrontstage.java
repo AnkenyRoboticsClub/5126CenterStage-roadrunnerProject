@@ -34,6 +34,7 @@ public class AutoV5RedFrontstage extends LinearOpMode {
     private CRServo claw;
     private DcMotor armBoost;
     private int armDropPosition = 523;
+    //Higher position is 544
     static final double COUNTS_PER_MOTOR_REV = 537.7; //Ticks per revolution
     static final double DRIVE_GEAR_REDUCTION = 1.0; // No External Gearing
     static final double WHEEL_DIAMETER_INCHES   = 3.77953 ;     // For 96 mm diameter - If 140mm use 5.51181
@@ -132,13 +133,14 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                 if(currentStep == 2){
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-41, -38.43), Math.toRadians(119.74))
+                                    .splineTo(new Vector2d(-42, -38.43), Math.toRadians(119.74))
                                     .setReversed(true)
-                                    .splineTo(new Vector2d(-35, -59.29), Math.toRadians(267.51))
+                                    //splineTo(new Vector2d(-35, -59.29), Math.toRadians(267.51))
+                                    .splineTo(new Vector2d(-36, -59.29), Math.toRadians(267.51))
                                     .setReversed(false)
                                     .splineTo(new Vector2d(-20, -12), Math.toRadians(0))
                                     .splineTo(new Vector2d(29.97, -12), Math.toRadians(0.00))
-                                    .splineToConstantHeading(new Vector2d(41, -29.68), Math.toRadians(0.00))
+                                    .splineToConstantHeading(new Vector2d(43, -29.68), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -208,7 +210,7 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                 //Step 12 - Turning
                 if(currentStep == 12){
                     //drive.pose = new Pose2d(46.72, -29.68, Math.toRadians(0));
-                    drive.updatePoseEstimate();
+                    //drive.updatePoseEstimate();
 
                     //Turns 90 degrees back to starting position
                     Actions.runBlocking(

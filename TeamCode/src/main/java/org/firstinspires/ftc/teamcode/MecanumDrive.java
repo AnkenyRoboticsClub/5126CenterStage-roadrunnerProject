@@ -49,13 +49,13 @@ import java.util.List;
 public final class MecanumDrive {
     public static class Params {
         // drive model parameters
-        public double inPerTick = (24.0/8249.67);//(8247.5, 8220, 8279
-        public double lateralInPerTick = 0.002240773615795065;
-        public double trackWidthTicks = 5209.809497891818;//5150.660830777772; //5208.837629152753
+        public double inPerTick = (24.0/8061);//7977, 8080 7999 8113 8140
+        public double lateralInPerTick =  0.0021837522879989313 ; //Maybe negative 0.002253293621500152 0.0021837522879989313
+        public double trackWidthTicks = 5213.251824297269;//5150.660830777772; //5208.837629152753
 
         // feedforward parameters (in tick units)
-        public double kS = 0.7104300976039104; //0.6890322429660305; //0.6890322429660305
-        public double kV = 0.0005944213122328166; //0.0005833084081788928; //0.0005833084081788928
+        public double kS = 0.6384981298267305; //1.0499092429953385 0.8929342743223758 0.9137264140669785 0.596530974888688
+        public double kV = 0.0005868319987755748; //0.0005757489380909802 0.0005876084720931419 0.0005860548440355692
         public double kA = 0.000037;
 
         // path profile parameters (in inches)
@@ -68,8 +68,8 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 4;
-        public double lateralGain = 2.5;
+        public double axialGain = 4; //4
+        public double lateralGain = 2.5; //2.5
         public double headingGain = 0.9; // shared with turn
 
         public double axialVelGain = 0.0;
@@ -190,7 +190,7 @@ public final class MecanumDrive {
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        imu = hardwareMap.get(IMU.class, "imu");
+        imu = hardwareMap.get(IMU.class, "imuEHub");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
