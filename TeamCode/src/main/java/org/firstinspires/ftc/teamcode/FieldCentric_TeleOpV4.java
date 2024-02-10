@@ -8,24 +8,29 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.RobotLog;
 
-import org.firstinspires.ftc.robotcore.external.JavaUtil;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 
-@TeleOp (name="FieldCentric_TeleOpV3", group="Linear OpMode")
-public class FieldCentric_TeleOpV3 extends LinearOpMode {
+@TeleOp (name="FieldCentric_TeleOpV4", group="Linear OpMode")
+public class FieldCentric_TeleOpV4 extends LinearOpMode {
 
     static final double TURN_SPEED = 0.5;
     static final double MOVING_SPEED = 0.5;
     static final double MOVING_SPEED_SLOW = 0.25;
     static final double ARM_COUNTS_PER_MOTOR_REV = 288;
     static final double DEGREES_PER_TICK = (360 / ARM_COUNTS_PER_MOTOR_REV);
+
+    static final int airPlaneLaunchPosition = 303;
+
     private CRServo claw;
     private DcMotor arm;
     private DcMotor armBoost;
+    //private CRServo airplaneServo;
+    private DcMotor airplaneMotor;
+    private Servo airplaneServo2;
 
 
     @Override
@@ -53,6 +58,11 @@ public class FieldCentric_TeleOpV3 extends LinearOpMode {
         boolean armHold = true;
         double armDistance = 0;
 
+        //Sets up airplane launcher
+        //airplaneServo = hardwareMap.get(CRServo.class, "launcher");
+        airplaneServo2 = hardwareMap.get(Servo.class, "launcher");
+        airplaneMotor = hardwareMap.get(DcMotor.class, "perp"); //Name for the motor
+        airplaneMotor.setDirection((DcMotorSimple.Direction.REVERSE));
 
         //Reverse the motors that are reversed
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -228,6 +238,24 @@ public class FieldCentric_TeleOpV3 extends LinearOpMode {
             } else {
                 arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
+
+
+            //Airplane Launcher
+            if(gamepad2.dpad_up){
+                //Ensures the arm is in a good position to use launcher
+                if(arm.getCurrentPosition() >= airPlaneLaunchPosition){
+                    airplaneMotor.setPower(0.6);
+                }
+            }
+            else{
+                airplaneMotor.setPower(0);
+            }
+            //Connor controls liftoff
+            if(gamepad1.right_bumper && gamepad1.dpad_down)
+            {
+                airplaneServo2.setPosition(-1);
+            }
+
             //telemetry.addData("")
             telemetry.addData("Target Distance", armDistance);
             telemetry.addData("Arm Velocity", ((DcMotorEx) arm).getVelocity());

@@ -189,7 +189,7 @@ public class AutoV5RedBackstage extends LinearOpMode {
                 if(currentStep == 11){
                     arm.setTargetPosition(0);
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+                    sleep(1000);
                     //Waits until the arm stops moving before going forward
                     while(arm.isBusy()){
 
