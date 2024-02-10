@@ -49,14 +49,14 @@ import java.util.List;
 public final class MecanumDrive {
     public static class Params {
         // drive model parameters
-        public double inPerTick = (24.0/8084.0);//(8020/24) (8120/24) 8138 8060 (8198/24)
-        public double lateralInPerTick = 0.002312186417271399;
-        public double trackWidthTicks = 5150.660830777772;
+        public double inPerTick = (24.0/8249.67);//(8247.5, 8220, 8279
+        public double lateralInPerTick = 0.002240773615795065;
+        public double trackWidthTicks = 5209.809497891818;//5150.660830777772; //5208.837629152753
 
         // feedforward parameters (in tick units)
-        public double kS = 0.6890322429660305; //0.6890322429660305
-        public double kV = 0.0005833084081788928; //0.0005833084081788928
-        public double kA = 0.00003;
+        public double kS = 0.7104300976039104; //0.6890322429660305; //0.6890322429660305
+        public double kV = 0.0005944213122328166; //0.0005833084081788928; //0.0005833084081788928
+        public double kA = 0.000037;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -69,7 +69,7 @@ public final class MecanumDrive {
 
         // path controller gains
         public double axialGain = 4;
-        public double lateralGain = 1.5;
+        public double lateralGain = 2.5;
         public double headingGain = 0.9; // shared with turn
 
         public double axialVelGain = 0.0;
@@ -178,10 +178,10 @@ public final class MecanumDrive {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "Motor3");
-        leftBack = hardwareMap.get(DcMotorEx.class, "Motor2");
-        rightBack = hardwareMap.get(DcMotorEx.class, "Motor1");
-        rightFront = hardwareMap.get(DcMotorEx.class, "Motor0");
+        leftFront = hardwareMap.get(DcMotorEx.class, "Motor1");
+        leftBack = hardwareMap.get(DcMotorEx.class, "Motor0");
+        rightBack = hardwareMap.get(DcMotorEx.class, "Motor3");
+        rightFront = hardwareMap.get(DcMotorEx.class, "Motor2");
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -191,9 +191,10 @@ public final class MecanumDrive {
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         imu = hardwareMap.get(IMU.class, "imu");
+        //imu = hardwareMap.get(IMU.class, "imuEHub"); //possible change to fix rotation at end of auto
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
+                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
         imu.initialize(parameters);
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
