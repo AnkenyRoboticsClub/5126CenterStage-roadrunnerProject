@@ -158,7 +158,8 @@ public class FieldCentric_TeleOpV4 extends LinearOpMode {
             //Claw stuff
 
             //claw.setPower(gamepad2.right_trigger * -2 + 0.7);
-            claw.setPower((gamepad2.right_trigger*0.3)-1);
+            //changed from .3 to .5 because we made changes to the claw
+            claw.setPower((gamepad2.right_trigger*0.5)-1);
             //claw.setPower((gamepad2.right_trigger*0.115)-1);
 
             //arm
