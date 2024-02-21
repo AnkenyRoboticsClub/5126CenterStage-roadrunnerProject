@@ -194,7 +194,8 @@ public class AutoV5BlueFrontstage extends LinearOpMode {
                 if(currentStep == 11){
                     arm.setTargetPosition(0);
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+                    //sleep because sometimes it skips loop
+                    sleep(1000);
                     //Waits until the arm stops moving before going forward
                     while(arm.isBusy()){
 
