@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -23,8 +21,8 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "AutoV5RedFrontstage",group="Concpet")
-public class AutoV5RedFrontstage extends LinearOpMode {
+@Autonomous(name = "HIGHER-RedFrontstage",group="Concpet")
+public class AutoV5RedFrontstageHIGHER extends LinearOpMode {
 
     private DcMotor frontLeft;
     private DcMotor backLeft;
@@ -33,7 +31,7 @@ public class AutoV5RedFrontstage extends LinearOpMode {
     private DcMotor arm;
     private CRServo claw;
     private DcMotor armBoost;
-    private int armDropPosition = 523;
+    private int armDropPosition = 542;
     static final double COUNTS_PER_MOTOR_REV = 537.7; //Ticks per revolution
     static final double DRIVE_GEAR_REDUCTION = 1.0; // No External Gearing
     static final double WHEEL_DIAMETER_INCHES   = 3.77953 ;     // For 96 mm diameter - If 140mm use 5.51181
@@ -130,15 +128,16 @@ public class AutoV5RedFrontstage extends LinearOpMode {
 
                 //Step 2 - Left line Start
                 if(currentStep == 2){
+                    sleep(5000);
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
                                     .splineTo(new Vector2d(-41, -38.43), Math.toRadians(119.74))
                                     .setReversed(true)
                                     .splineTo(new Vector2d(-35, -59.29), Math.toRadians(267.51))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(-20, -12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(29.97, -12), Math.toRadians(0.00))
-                                    .splineToConstantHeading(new Vector2d(42, -29.68), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(-20, -14), Math.toRadians(0))
+                                    .splineTo(new Vector2d(29.97, -13), Math.toRadians(0.00))
+                                    .splineToConstantHeading(new Vector2d(43.75, -31.5), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -146,6 +145,7 @@ public class AutoV5RedFrontstage extends LinearOpMode {
 
                 //Step 3 - Center line Start
                 if(currentStep == 3){
+                    sleep(5000);
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
                                     .splineTo(new Vector2d(-36.55, -36), Math.toRadians(90.00))
@@ -153,10 +153,10 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                                     .splineToConstantHeading(new Vector2d(-36.55, -53.07), Math.toRadians(90))
                                     .setReversed(false)
                                     .splineToConstantHeading(new Vector2d(-50, -50), Math.toRadians(90))
-                                    .splineTo(new Vector2d(-40.98, -12), Math.toRadians(0.00))
-                                    .splineTo(new Vector2d(31.12, -12), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(-40.98, -12.5), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(31.12, -12.5), Math.toRadians(0.00))
                                     //Need to decrease velocity
-                                    .splineToConstantHeading(new Vector2d(41, -38), Math.toRadians(0.00))
+                                    .splineToConstantHeading(new Vector2d(43.75, -38), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -164,6 +164,7 @@ public class AutoV5RedFrontstage extends LinearOpMode {
 
                 //Step 4 - Right line Start
                 if(currentStep == 4){
+                    sleep(4000);
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
                                     .splineTo(new Vector2d(-30.94, -36.05), Math.toRadians(45.00))
@@ -173,7 +174,7 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                                     .splineTo(new Vector2d(-30, -12), Math.toRadians(0))
                                     .splineTo(new Vector2d(-18.89, -12), Math.toRadians(0))
                                     .splineTo(new Vector2d(27.89, -12), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(41, -44.85), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(43.75, -42), Math.toRadians(0))
                                     .build()
                     );
                     currentStep = 10;
@@ -185,20 +186,24 @@ public class AutoV5RedFrontstage extends LinearOpMode {
                     arm.setTargetPosition(armDropPosition);
                     arm.setPower(0.5);
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    sleep(100);
+                    sleep(4000);
                     //Wait until arm is within the bounds of the set position before moving onto next step
+                    /*
                     if(armDropPosition + 5 < arm.getCurrentPosition() && armDropPosition - 5 < arm.getCurrentPosition()){
                         claw.setPower(-1);
                         currentStep = 11;
                     }
 
+                     */
+                    claw.setPower(-1);
+                    currentStep = 11;
                 }
                 //Step 11 - Lower arm
                 if(currentStep == 11){
                     arm.setTargetPosition(0);
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     //sleep because sometimes it skips loop
-                    sleep(1000);
+                    sleep(2000);
                     //Waits until the arm stops moving before going forward
                     while(arm.isBusy()){
 
@@ -237,6 +242,45 @@ public class AutoV5RedFrontstage extends LinearOpMode {
             }
         }
     }
+
+    public void strafeEncoders(double power, int ticks){
+        //This function should replace rotating and driving during parking by just strafing sideways
+        //Resets the encoders
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Sets the target position to the amount of encoder ticks you want
+        frontLeft.setTargetPosition(ticks*1);
+        backLeft.setTargetPosition(ticks*-1);
+        frontRight.setTargetPosition(ticks*-1);
+        backRight.setTargetPosition(ticks*1);
+
+        //Takes motors to that position
+        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        //Goes forward at the certain speed
+        setMotorPower(power, power, power, power);
+
+        //Waits until the motors are done moving
+        while(frontLeft.isBusy() && backLeft.isBusy() && frontRight.isBusy() && backRight.isBusy()){
+
+        }
+
+        //Stops the motors
+        setMotorPower(0,0,0,0);
+
+        //Goes back to running using the encoder
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     public void moveDistance(double power, double distance){
         //Resets the encoders
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

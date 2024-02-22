@@ -190,8 +190,8 @@ public final class MecanumDrive {
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        imu = hardwareMap.get(IMU.class, "imu");
-        //imu = hardwareMap.get(IMU.class, "imuEHub"); //possible change to fix rotation at end of auto
+        //imu = hardwareMap.get(IMU.class, "imu");
+        imu = hardwareMap.get(IMU.class, "imuEHub"); //possible change to fix rotation at end of auto
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT));

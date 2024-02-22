@@ -187,6 +187,7 @@ public class BlueBackstageNOPARK extends LinearOpMode {
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                     //Waits until the arm stops moving before going forward
+                    sleep(1000);
                     while(arm.isBusy()){
 
                     }
