@@ -238,7 +238,8 @@ public class AutoV5RedBackstage extends LinearOpMode {
                     else{
                         break;
                     }
-                    currentStep = 16;
+                    //sleep(5000);
+                    currentStep = 17;
                 }
                 //turn to keep tele-op orientation the same (if turn fails its not a big deal)
                 if(currentStep == 16){
