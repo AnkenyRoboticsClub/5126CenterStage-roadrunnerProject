@@ -190,9 +190,9 @@ public class AutoV5BlueBackstage extends LinearOpMode {
                     while(arm.isBusy()){
 
                     }
-                    currentStep = 12;
+                    currentStep = 13;
                 }
-
+                //skip rotation for strafe
                 //Step 12 - Turning
                 if(currentStep == 12){
                     drive.updatePoseEstimate();
@@ -209,11 +209,11 @@ public class AutoV5BlueBackstage extends LinearOpMode {
                 //Step 13 - parking
                 if(currentStep == 13){
                     if(blockLocation == "left"){
-                        moveDistance(0.7,12);
+                        strafeDistance(0.7,12);
                     }else if (blockLocation == "center"){
-                        moveDistance(0.7,18);
+                        strafeDistance(0.7,18);
                     }else if(blockLocation == "right"){
-                        moveDistance(0.7,24);
+                        strafeDistance(0.7,24);
                     } else{
                         break;
                     }
@@ -222,6 +222,45 @@ public class AutoV5BlueBackstage extends LinearOpMode {
             }
         }
     }
+
+    public void strafeDistance(double power, double distance){
+        //This function should replace rotating and driving during parking by just strafing sideways
+        //Resets the encoders
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Sets the target position to the amount of encoder ticks you want
+        frontLeft.setTargetPosition((int)(distance * (int) COUNTS_PER_INCH)*1);
+        backLeft.setTargetPosition((int)(distance * (int) COUNTS_PER_INCH)*-1);
+        frontRight.setTargetPosition((int)(distance * (int) COUNTS_PER_INCH)*-1);
+        backRight.setTargetPosition((int)(distance * (int) COUNTS_PER_INCH)*1);
+
+        //Takes motors to that position
+        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        //Goes forward at the certain speed
+        setMotorPower(power, power, power, power);
+
+        //Waits until the motors are done moving
+        while(frontLeft.isBusy() && backLeft.isBusy() && frontRight.isBusy() && backRight.isBusy()){
+
+        }
+
+        //Stops the motors
+        setMotorPower(0,0,0,0);
+
+        //Goes back to running using the encoder
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     public void moveDistance(double power, double distance){
         //Resets the encoders
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

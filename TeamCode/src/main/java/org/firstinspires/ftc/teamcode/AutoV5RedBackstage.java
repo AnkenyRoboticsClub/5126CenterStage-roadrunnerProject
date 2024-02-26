@@ -194,9 +194,10 @@ public class AutoV5RedBackstage extends LinearOpMode {
                     while(arm.isBusy()){
 
                     }
-                    currentStep = 12;
+                    //currentStep = 12;
+                    currentStep = 15; //skip to strafe
                 }
-
+                //skip if strafe
                 //Step 12 - Turning
                 if(currentStep == 12){
                     //drive.pose = new Pose2d(46.72, -29.68, Math.toRadians(0));
@@ -210,7 +211,7 @@ public class AutoV5RedBackstage extends LinearOpMode {
                     );
                     currentStep = 13;
                 }
-
+                //skip if strafe
                 //Step 13 - parking
                 if(currentStep == 13){
                     if(blockLocation == "left"){
@@ -225,8 +226,74 @@ public class AutoV5RedBackstage extends LinearOpMode {
                     }
                     currentStep = 14;
                 }
+                //strafe
+                if(currentStep == 15){
+                    if(blockLocation == "left"){
+                        strafeDistance(0.7,27);
+                    }else if (blockLocation == "center"){
+                        strafeDistance(0.7,23);
+                    }else if(blockLocation == "right"){
+                        strafeDistance(0.7,13);
+                    }
+                    else{
+                        break;
+                    }
+                    //sleep(5000);
+                    currentStep = 17;
+                }
+                //turn to keep tele-op orientation the same (if turn fails its not a big deal)
+                if(currentStep == 16){
+                    //drive.pose = new Pose2d(46.72, -29.68, Math.toRadians(0));
+                    drive.updatePoseEstimate();
+
+                    //Turns 90 degrees back to starting position
+                    Actions.runBlocking(
+                            drive.actionBuilder(drive.pose)
+                                    .turn(Math.toRadians(-90))
+                                    .build()
+                    );
+                    currentStep = 17;
+                }
             }
         }
+    }
+
+    public void strafeDistance(double power, double distance){
+        //This function should replace rotating and driving during parking by just strafing sideways
+        //Resets the encoders
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Sets the target position to the amount of encoder ticks you want
+        frontLeft.setTargetPosition((int)(distance * (int) COUNTS_PER_INCH)*1);
+        backLeft.setTargetPosition((int)(distance * (int) COUNTS_PER_INCH)*-1);
+        frontRight.setTargetPosition((int)(distance * (int) COUNTS_PER_INCH)*-1);
+        backRight.setTargetPosition((int)(distance * (int) COUNTS_PER_INCH)*1);
+
+        //Takes motors to that position
+        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        //Goes forward at the certain speed
+        setMotorPower(power, power, power, power);
+
+        //Waits until the motors are done moving
+        while(frontLeft.isBusy() && backLeft.isBusy() && frontRight.isBusy() && backRight.isBusy()){
+
+        }
+
+        //Stops the motors
+        setMotorPower(0,0,0,0);
+
+        //Goes back to running using the encoder
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void moveDistance(double power, double distance){
         //Resets the encoders
