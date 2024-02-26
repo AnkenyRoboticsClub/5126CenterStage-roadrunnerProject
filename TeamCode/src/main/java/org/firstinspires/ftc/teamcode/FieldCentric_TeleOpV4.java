@@ -30,7 +30,7 @@ public class FieldCentric_TeleOpV4 extends LinearOpMode {
     private DcMotor armBoost;
     //private CRServo airplaneServo;
     private DcMotor airplaneMotor;
-    private Servo airplaneServo2;
+    private DcMotor airplaneLaunch;
 
 
     @Override
@@ -60,7 +60,7 @@ public class FieldCentric_TeleOpV4 extends LinearOpMode {
 
         //Sets up airplane launcher
         //airplaneServo = hardwareMap.get(CRServo.class, "launcher");
-        airplaneServo2 = hardwareMap.get(Servo.class, "launcher");
+        airplaneLaunch = hardwareMap.get(DcMotor.class, "par1"); //Port 2 on E hub
         airplaneMotor = hardwareMap.get(DcMotor.class, "perp"); //Name for the motor
         airplaneMotor.setDirection((DcMotorSimple.Direction.REVERSE));
 
@@ -254,7 +254,10 @@ public class FieldCentric_TeleOpV4 extends LinearOpMode {
             //Connor controls liftoff
             if(gamepad1.right_bumper && gamepad1.dpad_down)
             {
-                airplaneServo2.setPosition(-1);
+                airplaneLaunch.setPower(0.5);
+            }
+            else{
+                airplaneLaunch.setPower(0);
             }
 
             //telemetry.addData("")

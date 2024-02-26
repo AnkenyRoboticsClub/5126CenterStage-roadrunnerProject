@@ -21,7 +21,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "AutoV5BlueFrontstage",group="Concpet")
+@Autonomous(name = "AutoV5BlueFrontstageHigher",group="Concpet")
 public class AutoV5BlueFrontstageHIGHER extends LinearOpMode {
 
     private DcMotor frontLeft;

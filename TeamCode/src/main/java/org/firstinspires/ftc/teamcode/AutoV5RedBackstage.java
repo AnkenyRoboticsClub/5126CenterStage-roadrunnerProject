@@ -229,11 +229,11 @@ public class AutoV5RedBackstage extends LinearOpMode {
                 //strafe
                 if(currentStep == 15){
                     if(blockLocation == "left"){
-                        strafeDistance(0.7,27);
+                        strafeDistance(0.7,32);
                     }else if (blockLocation == "center"){
-                        strafeDistance(0.7,23);
+                        strafeDistance(0.7,28);
                     }else if(blockLocation == "right"){
-                        strafeDistance(0.7,13);
+                        strafeDistance(0.7,18);
                     }
                     else{
                         break;
