@@ -21,8 +21,8 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "HIGHER-RedFrontstage",group="Concpet")
-public class AutoV5RedFrontstageHIGHER extends LinearOpMode {
+@Autonomous(name = "AutoV5BlueFrontstage",group="Concpet")
+public class AutoV5BlueFrontstageHIGHER extends LinearOpMode {
 
     private DcMotor frontLeft;
     private DcMotor backLeft;
@@ -43,9 +43,9 @@ public class AutoV5RedFrontstageHIGHER extends LinearOpMode {
     private TfodProcessor tfod;
     private int myExposure;
 
-    private static final String TFOD_MODEL_ASSET = "RedCubeNEW.tflite";
+    private static final String TFOD_MODEL_ASSET = "BlueCubeNEW.tflite";
     private static final String[] LABELS = {
-            "RedCube1",
+            "BlueCube1",
     };
 
     @Override
@@ -56,7 +56,8 @@ public class AutoV5RedFrontstageHIGHER extends LinearOpMode {
 
         initTfod();
         MecanumDriveSLOW drive = new MecanumDriveSLOW(hardwareMap, new Pose2d(0, 0, Math.toRadians(0)));
-
+        drive.defaultAccelConstraint.equals(30);
+        drive.defaultVelConstraint.equals(30);
 
         claw = hardwareMap.get(CRServo.class, "claw");
         arm = hardwareMap.get(DcMotor.class, "arm");
@@ -75,7 +76,7 @@ public class AutoV5RedFrontstageHIGHER extends LinearOpMode {
 
 
         //Claw closes
-        claw.setPower(0.2);
+        claw.setPower(0.1);
 
 
         // Wait for the DS start button to be touched.
@@ -86,15 +87,13 @@ public class AutoV5RedFrontstageHIGHER extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
-
         if(opModeIsActive()){
             while(opModeIsActive()){
                 telemetryTfod();
                 telemetry.update();
 
-                drive.pose = new  Pose2d(-37.77, -62.90, Math.toRadians(90.00));
-                //drive.defaultAccelConstraint.equals(30);
-                //drive.defaultVelConstraint.equals(30);
+                drive.pose = new Pose2d(-37.77, 62.9, Math.toRadians(-90.00));
+
                 //Step 1 - use Tensorflow to check for team prop on left and center spike
                 if (currentStep == 1) {
                     if(runtime.milliseconds() < 1500){
@@ -102,14 +101,14 @@ public class AutoV5RedFrontstageHIGHER extends LinearOpMode {
                         //go through list of recognitions and look for cube
                         for(Recognition recognition : currentRecognitions){
                             telemetryTfod();
-                            if(recognition.getLabel() == "RedCube1"){
-                                if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 400)){
-                                    //Location Left
+                            if(recognition.getLabel() == "BlueCube1"){
+                                if((returnXPositionOfCube() >= 0) && (returnXPositionOfCube() <= 250)){
+                                    // Location Left
                                     blockLocation = "left";
                                     currentStep = 2;
 
                                 } else{
-                                    //Location Center
+                                    // Location Center
                                     blockLocation = "center";
                                     currentStep = 3;
                                 }
@@ -120,24 +119,23 @@ public class AutoV5RedFrontstageHIGHER extends LinearOpMode {
                         }
                     }
                     else {
-                        //Location Right
+                        // Location Right
                         blockLocation = "right";
                         currentStep = 4;
                     }
                 }
-
                 //Step 2 - Left line Start
                 if(currentStep == 2){
-                    sleep(5000);
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-41, -38.43), Math.toRadians(119.74))
+                                    .splineTo(new Vector2d(-32, 38.06), Math.toRadians(-45.00))
                                     .setReversed(true)
-                                    .splineTo(new Vector2d(-35, -59.29), Math.toRadians(267.51))
+                                    .splineToConstantHeading(new Vector2d(-45, 54.09), Math.toRadians(-45))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(-20, -14), Math.toRadians(0))
-                                    .splineTo(new Vector2d(29.97, -13), Math.toRadians(0.00))
-                                    .splineToConstantHeading(new Vector2d(43.75, -31.5), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(-30, 12), Math.toRadians(0))
+                                    .splineTo(new Vector2d(-18.89, 12), Math.toRadians(0))
+                                    .splineTo(new Vector2d(27.89, 12), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(43.75, 44.85), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -145,36 +143,34 @@ public class AutoV5RedFrontstageHIGHER extends LinearOpMode {
 
                 //Step 3 - Center line Start
                 if(currentStep == 3){
-                    sleep(5000);
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-36.55, -36), Math.toRadians(90.00))
+                                    .splineTo(new Vector2d(-35.60, 36), Math.toRadians(-90.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(-36.55, -53.07), Math.toRadians(90))
+                                    .splineToConstantHeading(new Vector2d(-36.55, 53.07), Math.toRadians(-90))
                                     .setReversed(false)
-                                    .splineToConstantHeading(new Vector2d(-50, -50), Math.toRadians(90))
-                                    .splineTo(new Vector2d(-40.98, -12.5), Math.toRadians(0.00))
-                                    .splineTo(new Vector2d(31.12, -12.5), Math.toRadians(0.00))
-                                    //Need to decrease velocity
-                                    .splineToConstantHeading(new Vector2d(43.75, -38), Math.toRadians(0.00))
+                                    .splineToConstantHeading(new Vector2d(-50, 50), Math.toRadians(-90))
+                                    .splineTo(new Vector2d(-40.98, 12), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(31.44, 12), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(43.75, 38), Math.toRadians(0.00))
                                     .build()
                     );
+
                     currentStep = 10;
                 }
 
+
                 //Step 4 - Right line Start
                 if(currentStep == 4){
-                    sleep(4000);
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
-                                    .splineTo(new Vector2d(-30.94, -36.05), Math.toRadians(45.00))
+                                    .splineTo(new Vector2d(-42, 39.94), Math.toRadians(-119.00))
                                     .setReversed(true)
-                                    .splineToConstantHeading(new Vector2d(-45, -54.09), Math.toRadians(45))
+                                    .splineTo(new Vector2d(-35, 59.29), Math.toRadians(-267.51))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(-30, -12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(-18.89, -12), Math.toRadians(0))
-                                    .splineTo(new Vector2d(27.89, -12), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(43.75, -42), Math.toRadians(0))
+                                    .splineTo(new Vector2d(-20, 13), Math.toRadians(0))
+                                    .splineTo(new Vector2d(29.97, 13), Math.toRadians(0))
+                                    .splineToConstantHeading(new Vector2d(43.75, 29.68), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -213,10 +209,9 @@ public class AutoV5RedFrontstageHIGHER extends LinearOpMode {
 
                 //Step 12 - Turning
                 if(currentStep == 12){
-                    //drive.pose = new Pose2d(46.72, -29.68, Math.toRadians(0));
                     drive.updatePoseEstimate();
 
-                    //Turns 90 degrees back to starting position
+                    //Turns -90 degrees back to starting position
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
                                     .turn(Math.toRadians(-90))
@@ -228,13 +223,12 @@ public class AutoV5RedFrontstageHIGHER extends LinearOpMode {
                 //Step 13 - parking
                 if(currentStep == 16){
                     if(blockLocation == "right"){
-                        moveDistance(0.7,-26);
+                        moveDistance(0.7,11);
                     }else if (blockLocation == "center"){
-                        moveDistance(0.7,-21);
+                        moveDistance(0.7,16);
                     }else if(blockLocation == "left"){
-                        moveDistance(0.7,-12.5);
-                    }
-                    else{
+                        moveDistance(0.7,22);
+                    } else{
                         break;
                     }
                     currentStep = 14;
@@ -242,45 +236,6 @@ public class AutoV5RedFrontstageHIGHER extends LinearOpMode {
             }
         }
     }
-
-    public void strafeEncoders(double power, int ticks){
-        //This function should replace rotating and driving during parking by just strafing sideways
-        //Resets the encoders
-        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //Sets the target position to the amount of encoder ticks you want
-        frontLeft.setTargetPosition(ticks*1);
-        backLeft.setTargetPosition(ticks*-1);
-        frontRight.setTargetPosition(ticks*-1);
-        backRight.setTargetPosition(ticks*1);
-
-        //Takes motors to that position
-        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        //Goes forward at the certain speed
-        setMotorPower(power, power, power, power);
-
-        //Waits until the motors are done moving
-        while(frontLeft.isBusy() && backLeft.isBusy() && frontRight.isBusy() && backRight.isBusy()){
-
-        }
-
-        //Stops the motors
-        setMotorPower(0,0,0,0);
-
-        //Goes back to running using the encoder
-        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
     public void moveDistance(double power, double distance){
         //Resets the encoders
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
