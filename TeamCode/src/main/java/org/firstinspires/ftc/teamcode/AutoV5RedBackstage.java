@@ -135,7 +135,7 @@ public class AutoV5RedBackstage extends LinearOpMode {
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(23, -53), Math.toRadians(90))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(44, -29.68), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(44.4, -29.68), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -149,7 +149,7 @@ public class AutoV5RedBackstage extends LinearOpMode {
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(15, -50), Math.toRadians(90))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(44, -38), Math.toRadians(0.00))
+                                    .splineTo(new Vector2d(44.4, -38), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -164,7 +164,7 @@ public class AutoV5RedBackstage extends LinearOpMode {
                                     .setReversed(true)
                                     .splineToConstantHeading(new Vector2d(18.56,-55), Math.toRadians(90))
                                     .setReversed(false)
-                                    .splineTo(new Vector2d(44, -44.85), Math.toRadians(0))
+                                    .splineTo(new Vector2d(44.4, -44.85), Math.toRadians(0))
                                     .build()
                     );
                     currentStep = 10;

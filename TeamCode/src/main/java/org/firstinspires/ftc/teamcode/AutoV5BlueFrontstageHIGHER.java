@@ -126,6 +126,7 @@ public class AutoV5BlueFrontstageHIGHER extends LinearOpMode {
                 }
                 //Step 2 - Left line Start
                 if(currentStep == 2){
+                    sleep(5000);
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
                                     .splineTo(new Vector2d(-32, 38.06), Math.toRadians(-45.00))
@@ -143,6 +144,7 @@ public class AutoV5BlueFrontstageHIGHER extends LinearOpMode {
 
                 //Step 3 - Center line Start
                 if(currentStep == 3){
+                    sleep(5000);
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
                                     .splineTo(new Vector2d(-35.60, 36), Math.toRadians(-90.00))
@@ -152,7 +154,7 @@ public class AutoV5BlueFrontstageHIGHER extends LinearOpMode {
                                     .splineToConstantHeading(new Vector2d(-50, 50), Math.toRadians(-90))
                                     .splineTo(new Vector2d(-40.98, 12), Math.toRadians(0.00))
                                     .splineTo(new Vector2d(31.44, 12), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(43.75, 38), Math.toRadians(0.00))
+                                    .splineToConstantHeading(new Vector2d(43.75, 38.75), Math.toRadians(0.00))
                                     .build()
                     );
 
@@ -162,6 +164,7 @@ public class AutoV5BlueFrontstageHIGHER extends LinearOpMode {
 
                 //Step 4 - Right line Start
                 if(currentStep == 4){
+                    sleep(5000);
                     Actions.runBlocking(
                             drive.actionBuilder(drive.pose)
                                     .splineTo(new Vector2d(-42, 39.94), Math.toRadians(-119.00))
@@ -170,7 +173,7 @@ public class AutoV5BlueFrontstageHIGHER extends LinearOpMode {
                                     .setReversed(false)
                                     .splineTo(new Vector2d(-20, 13), Math.toRadians(0))
                                     .splineTo(new Vector2d(29.97, 13), Math.toRadians(0))
-                                    .splineToConstantHeading(new Vector2d(43.75, 29.68), Math.toRadians(0.00))
+                                    .splineToConstantHeading(new Vector2d(43.75, 32), Math.toRadians(0.00))
                                     .build()
                     );
                     currentStep = 10;
@@ -208,7 +211,7 @@ public class AutoV5BlueFrontstageHIGHER extends LinearOpMode {
                 }
 
                 //Step 12 - Turning
-                if(currentStep == 12){
+                if(currentStep == 14){
                     drive.updatePoseEstimate();
 
                     //Turns -90 degrees back to starting position

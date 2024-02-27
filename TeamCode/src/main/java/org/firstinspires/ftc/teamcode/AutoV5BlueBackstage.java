@@ -209,11 +209,11 @@ public class AutoV5BlueBackstage extends LinearOpMode {
                 //Step 13 - parking
                 if(currentStep == 13){
                     if(blockLocation == "left"){
-                        strafeDistance(0.7,12);
+                        strafeDistance(0.7,-16);
                     }else if (blockLocation == "center"){
-                        strafeDistance(0.7,18);
+                        strafeDistance(0.7,-22);
                     }else if(blockLocation == "right"){
-                        strafeDistance(0.7,24);
+                        strafeDistance(0.7,-28);
                     } else{
                         break;
                     }
