@@ -254,7 +254,7 @@ public class FieldCentric_TeleOpV4 extends LinearOpMode {
             //Connor controls liftoff
             if(gamepad1.right_bumper && gamepad1.dpad_down)
             {
-                airplaneLaunch.setPower(0.5);
+                airplaneLaunch.setPower(-0.5);
             }
             else{
                 airplaneLaunch.setPower(0);
